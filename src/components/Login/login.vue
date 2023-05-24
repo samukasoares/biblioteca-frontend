@@ -29,20 +29,18 @@ export default {
                 .then(
                     (response) => {
                         this.user = {}
-
-                        localStorage.setItem('token', response.body['token']);
-                        localStorage.setItem('id', response.body['id']);
-
                         if (response.body['role'] == "aluno") {
+                            localStorage.setItem('token', response.body['token']);
+                            localStorage.setItem('id', response.body['id']);
                             this.$router.push({
                                 name: 'index',
                                 params: {
-                                    token: response.body['token'],
-                                    id: response.body['id'],
                                     role: response.body['role'],
                                 }
                             });
                         } else {
+                            localStorage.setItem('token', response.body['token']);
+                            localStorage.setItem('id', response.body['id']);
                             this.$router.push({
                                 name: 'telaAdmin'
                             });

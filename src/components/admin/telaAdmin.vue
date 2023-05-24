@@ -47,7 +47,7 @@
                         <td>{{ x['email'] }}</td>
                         <td>{{ x['role'] }}</td>
                         <td>
-                            <button class="acoesUsuariosR">Suspender</button>
+                            <button @click="suspenderUser(x['ra'])" class="acoesUsuariosR">Suspender</button>
                             <label>|</label>
                             <button @click="reprovarUser(x['ra'])" class="acoesUsuariosR">Excluir</button>
                         </td>
@@ -114,6 +114,19 @@ export default {
         reprovarUser (ra) {
             const x = {ra}
             this.$http.patch('https://libraryapi-e5on.onrender.com/users/reproving', x).then(
+                response => {
+                    alert(response.body['msg'])
+                    this.fetchUserData()
+                    this.fetchUserPData()
+                },
+                error => {
+                    console.error(error);
+                }
+            )
+        },
+        suspenderUser (ra) {
+            const x = {ra}
+            this.$http.patch('https://libraryapi-e5on.onrender.com/users/suspending', x).then(
                 response => {
                     alert(response.body['msg'])
                     this.fetchUserData()

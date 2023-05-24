@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import popuplivro from './popuplivro.vue'
+import popuplivro from './popuplivro-reservado.vue'
 import livroCapa from '../assets/CapaLivro.jpeg'
 export default {
     name: 'lista-livros',
@@ -34,11 +34,13 @@ export default {
         }
     },
     mounted: function () {
-        this.fetchLivroData()
+        this.fetchLivroReservadoData()
+        
     },
     methods: {
-        fetchLivroData: function () {
-            this.$http.get('https://libraryapi-e5on.onrender.com/books/list/').then(
+        fetchLivroReservadoData: function () {
+            const userRa = localStorage.getItem('ra')
+            this.$http.get('https://libraryapi-e5on.onrender.com/bookings/userlist/' + userRa).then(
                 (response) => {
                     this.livros = response.body['data']
                 },
@@ -58,7 +60,8 @@ export default {
         closePopup() {
             this.selectedBook = null;
         }
-    }
+    },
+
 }
 </script>
 

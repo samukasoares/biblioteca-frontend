@@ -1,38 +1,58 @@
 <template>
     <div>
         <navbar />
-        <listaLivros titulo="LIVROS DISPONÍVEIS" :ra="ra"/>
+        <h2>Bem vindo, {{ this.nome }}!</h2>
+        <listaReservados titulo="MINHAS RESERVAS" :ra="ra"/>
+        <listaLivros titulo="LIVROS DISPONÍVEIS" :ra="ra" />
     </div>
 </template>
 
 <script>
 import navbar from './navbar.vue';
 import listaLivros from './lista-livros.vue';
+import listaReservados from './lista-livros-reservados.vue'
 export default {
     name: 'index',
     components: {
         navbar,
-        listaLivros
+        listaLivros,
+        listaReservados
     },
-    data: function(){
+    data: function () {
         return {
-            ra: null
+            ra: null,
+            nome: null
         }
     },
-    created: function () {
-        this.$http.get('https://libraryapi-e5on.onrender.com/user/' + this.$route.params.id,{
-                headers: {
-                    'Authorization': "Bearer " + this.$route.params.token,
-                    'Content-Type': 'application/json'
-                }
-            }).then(
-                (response) => {
-                    this.ra = response.body['user']['ra'];
-                },
-                (error) => {
-                    console.log(error);
-                }
-            )
+    mounted: function () {
+        const token = localStorage.getItem('token'); // Recupere o token do localStorage
+        const id = localStorage.getItem('id'); // Recupere o id do localStorage
+        this.$http.get('https://libraryapi-e5on.onrender.com/user/' + id, {
+            headers: {
+                'Authorization': "Bearer " + token,
+                'Content-Type': 'application/json'
+            }
+        }).then(
+            (response) => {
+                localStorage.setItem('ra',response.body['user']['ra'])
+                const userRa = localStorage.getItem('ra')
+                this.ra = response.body['user']['ra'];
+                this.nome = response.body['user']['name'];
+            },
+            (error) => {
+                console.log(error);
+            }
+        )
     }
 };
 </script>
+
+<style scoped>
+h2 {
+    display: flex;
+    justify-content: right;
+    padding-bottom: 5px;
+    font-size: 30px;
+    margin-right: 20px;
+}
+</style>

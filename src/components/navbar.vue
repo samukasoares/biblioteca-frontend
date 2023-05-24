@@ -7,7 +7,6 @@
 
         <div class="links">
             <router-link :to="{name:'index'}"><button class="menus">Início</button></router-link>
-            <router-link :to="{name:'cadastrolivro'}"><button class="menus">Minhas Reservas</button></router-link>
         </div>
 
         <div class="fim">
@@ -17,7 +16,7 @@
             <div class="dropdown">
                 <img class="user-pic" :src="user">
                 <div class="dropdown-content">
-                    <router-link :to="{name:'login'}"><a href="#">Sair</a></router-link>
+                    <button class="btnSair" @click="logout">Sair</button>
                 </div>
             </div>
         </div>
@@ -33,6 +32,15 @@ export default {
         return {
             logo: logo,
             user: user
+        }
+    },
+    methods: {
+        logout() {
+            localStorage.setItem('token', null); // Define o token como null
+            localStorage.setItem('id', null); // Define o id como null
+            localStorage.setItem('ra', null);
+            // Redireciona para a página de login ou onde for apropriado
+            this.$router.push({ name: 'login' });
         }
     }
 }
@@ -76,6 +84,18 @@ img {
     width: 60px;
     height: 60px;
     margin-right: 10px;
+}
+
+.btnSair{
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    padding: 5px;
+    width: 100%;
+}
+
+.btnSair:hover{
+    cursor: pointer;
 }
 
 a {
@@ -163,6 +183,7 @@ input:focus {
 
 .dropdown-content:hover {
     background-color: rgb(194, 194, 194);
+    cursor: pointer;
 }
 
 /* Links inside the dropdown */

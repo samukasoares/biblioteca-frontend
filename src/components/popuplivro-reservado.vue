@@ -36,8 +36,8 @@
 
             </div>
 
-            <div>
-                <button @click="reservarLivro(ra, book.isbn)" class="reservar">Reservar</button>
+            <div class="imgQr">
+                <img id="QrCodeImage">
             </div>
         </div>
     </div>
@@ -45,23 +45,19 @@
 
 <script>
 export default {
-    name: 'popuplivro',
+    name: 'popuplivro-reservado',
     props: {
         book: Object,
         ra: String
     },
+    mounted: function(){
+        const userRa = localStorage.getItem('ra')
+        this.getqrCode(userRa, this.book.isbn)
+    },
     methods: {
-        reservarLivro(userRa, bookIsbn) {
-            const qrCode = 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=%27'+userRa+bookIsbn
-            this.$http.post('https://libraryapi-e5on.onrender.com/booking/insert', { userRa, bookIsbn, qrCode }, {
-            }).then(
-                (response) => {
-                    alert(response.body['msg'])
-                },
-                (response) => {
-                    alert(response.body['msg'])
-                }
-            )
+        getqrCode(userRa, bookIsbn) {
+            const qrCode = 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=%27' +userRa+bookIsbn
+            document.querySelector('#QrCodeImage').src = qrCode
         }
     }
 };
@@ -91,6 +87,11 @@ export default {
 
 .group {
     margin-bottom: 10px;
+}
+
+.imgQr{
+    display: flex;
+    justify-content: center;
 }
 
 .reservar {
