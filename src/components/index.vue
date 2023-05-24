@@ -1,7 +1,7 @@
 <template>
     <div>
         <navbar />
-        <listaLivros titulo="LIVROS DISPONÍVEIS" :ra="ra" />
+        <listaLivros titulo="LIVROS DISPONÍVEIS" :ra="ra"/>
     </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
     },
     data: function(){
         return {
-            ra: null,
+            ra: null
         }
     },
     created: function () {

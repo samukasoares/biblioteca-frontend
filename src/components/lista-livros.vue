@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <h1>{{ ra }}</h1>
         <h3>{{ titulo }}</h3>
         <div class="container-livros">
             <div class="card" v-for='x in livros' :key="x['_id']">
@@ -8,7 +9,7 @@
                 </a>
                 <h4>{{ x['title'] }}</h4>
             </div>
-            <popuplivro :book="selectedBook" v-if="selectedBook" @close="closePopup" />
+            <popuplivro :ra="ra" :book="selectedBook" v-if="selectedBook" @close="closePopup" />
         </div>
         
     </div>
@@ -31,7 +32,6 @@ export default {
             livroCapa: livroCapa,
             livros: [],
             selectedBook: null,
-
         }
     },
     created: function () {

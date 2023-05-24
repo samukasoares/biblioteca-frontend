@@ -28,7 +28,10 @@
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vitae perferendis reiciendis incidunt
                     distinctio doloribus reprehenderit iste mollitia atque numquam, obcaecati dolor dolorem veniam
                     voluptatem laudantium eos, ut est neque iure!</p>
+
             </div>
+
+            <label>{{ ra }}</label>
 
             <div>
                 <button class="reservar">Reservar</button>
@@ -40,11 +43,11 @@
 <script>
     export default {
         name: 'popuplivro',
-        props: ['book'],
+        props: {
+            book: Object,
+            ra: String
+        },
         methods: {
-            reservarLivro(){
-                
-            }
         }
     };
 </script>
