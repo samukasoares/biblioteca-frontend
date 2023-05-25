@@ -57,6 +57,7 @@ export default {
             }).then(
                 (response) => {
                     alert(response.body['msg'])
+                    window.location.reload();
                 },
                 (response) => {
                     alert(response.body['msg'])
