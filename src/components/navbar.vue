@@ -6,12 +6,12 @@
         </div>
 
         <div class="links">
-            <router-link :to="{name:'index'}"><button class="menus">Início</button></router-link>
+            <router-link :to="{ name: 'index' }"><button class="menus">Início</button></router-link>
         </div>
 
         <div class="fim">
-            <input type="text" placeholder="Pesquisar Livros...">
-            <button class="pesquisar">Pesquisar</button>
+            <input type="text" placeholder="Pesquisar Livros..." v-model="searchQuery">
+            <button class="pesquisar" @click="pesquisarLivros">Pesquisar</button>
 
             <div class="dropdown">
                 <img class="user-pic" :src="user">
@@ -31,7 +31,8 @@ export default {
     data: function () {
         return {
             logo: logo,
-            user: user
+            user: user,
+            searchQuery: ''
         }
     },
     methods: {
@@ -41,8 +42,19 @@ export default {
             localStorage.setItem('ra', null);
             // Redireciona para a página de login ou onde for apropriado
             this.$router.push({ name: 'login' });
-        }
-    }
+        },
+        pesquisarLivros() {
+            this.$root.filteredBooks = this.filteredBooks();
+        },
+    },
+    computed: {
+        filteredBooks() {
+            const query = this.searchQuery.toLowerCase();
+            return this.$root.$data.livros.filter(item => {
+                return item.name.toLowerCase().includes(query);
+            });
+        },
+    },
 }
 </script>
 
@@ -86,7 +98,7 @@ img {
     margin-right: 10px;
 }
 
-.btnSair{
+.btnSair {
     background-color: transparent;
     border: none;
     font-size: 20px;
@@ -94,7 +106,7 @@ img {
     width: 100%;
 }
 
-.btnSair:hover{
+.btnSair:hover {
     cursor: pointer;
 }
 
@@ -150,13 +162,13 @@ input:focus {
     cursor: pointer;
 }
 
-.menus{
+.menus {
     border: none;
     font-weight: 1000;
     background-color: transparent;
 }
 
-.menus:hover{
+.menus:hover {
     cursor: pointer;
     color: rgb(44, 83, 189);
 }

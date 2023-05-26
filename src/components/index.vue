@@ -2,8 +2,8 @@
     <div>
         <navbar />
         <h2>Bem vindo, {{ this.nome }}!</h2>
-        <listaReservados titulo="MINHAS RESERVAS" :ra="ra"/>
-        <listaLivros titulo="LIVROS DISPONÍVEIS" :ra="ra" />
+        <listaReservados titulo="MINHAS RESERVAS" :ra="ra" />
+        <listaLivros titulo="LIVROS DISPONÍVEIS" :ra="ra" :items="$root.filteredBooks" />
     </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
             }
         }).then(
             (response) => {
-                localStorage.setItem('ra',response.body['user']['ra'])
+                localStorage.setItem('ra', response.body['user']['ra'])
                 const userRa = localStorage.getItem('ra')
                 this.ra = response.body['user']['ra'];
                 this.nome = response.body['user']['name'];
@@ -43,7 +43,12 @@ export default {
                 console.log(error);
             }
         )
-    }
+    },
+    computed: {
+        filteredBooks() {
+            return this.$root.filteredBooks;
+        },
+    },
 };
 </script>
 

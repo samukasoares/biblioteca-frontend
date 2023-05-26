@@ -4,7 +4,7 @@
         <div class="container-livros">
             <div class="card" v-for='x in livros' :key="x['_id']">
                 <a @click="togglePopup(x)" class="open-popup">
-                    <img :src="livroCapa">
+                    <img :src="x.thumb">
                 </a>
                 <h4>{{ x['title'] }}</h4>
             </div>
