@@ -1,22 +1,30 @@
 <template>
-    <form v-on:submit.prevent="loginUser">
-        <label>Entrar na Biblioteca</label>
-        <input type="text" v-model="user.email" placeholder="Email" name="email" id="email">
-        <input type="password" v-model="user.password" placeholder="Senha" name="password" id="password">
-        <button class="btn-Enviar">Enviar</button>
-        <router-link :to="{ name: 'cadastro' }"><a href="#">Cadastre-se</a></router-link>
-    </form>
+    <div>
+        <form v-on:submit.prevent="loginUser">
+            <caption>
+                <img :src="logo">
+                <h3>Biblioteca Sapê</h3>
+            </caption>
+            <label>Entrar na Biblioteca</label>
+            <input type="text" v-model="user.email" placeholder="Email" name="email" id="email">
+            <input type="password" v-model="user.password" placeholder="Senha" name="password" id="password">
+            <button class="btn-Enviar">Enviar</button>
+            <router-link :to="{ name: 'cadastro' }"><a href="#">Cadastre-se</a></router-link>
+        </form>
+    </div>
 </template>
 
 <script>
-
 var token;
 var id;
+
+import logo from "../assets/logo.png"
 
 export default {
     data() {
         return {
-            user: {}
+            logo:logo,
+            user: {},
         }
     },
     methods: {
@@ -56,6 +64,19 @@ export default {
 </script>
 
 <style scoped>
+
+
+img{
+    width: 40px;
+    margin-right: 5px;
+}
+
+caption{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
 * {
     margin: 0;
     padding: 0;
@@ -68,9 +89,9 @@ label {
 }
 
 form {
-    background-color: #F6F1F1;
-    max-width: 30%;
-    width: 40%;
+    background-color: rgb(211, 240, 253);
+    
+    min-width: 20%;
     padding: 15px;
     position: absolute;
     left: 50%;
@@ -110,6 +131,14 @@ button {
     background-color: #19A7CE;
     color: white;
     font: bold;
+}
+
+button:hover{
+    background-color: #14809e;
+}
+
+button:focus{
+    cursor: progress;
 }
 
 a {

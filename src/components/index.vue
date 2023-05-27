@@ -1,9 +1,10 @@
 <template>
     <div>
-        <navbar />
+        <navbar @buscarLivros="buscarLivros" />
         <h2>Bem vindo, {{ this.nome }}!</h2>
-        <listaReservados titulo="MINHAS RESERVAS" :ra="ra" />
-        <listaLivros titulo="LIVROS DISPONÍVEIS" :ra="ra" :items="$root.filteredBooks" />
+        <listaReservados v-if="temReservas" titulo="MINHAS RESERVAS" :ra="ra" />
+        <listaLivros v-if="!termoBusca" titulo="LIVROS DISPONÍVEIS" :ra="ra" />
+        <listaLivros v-if="termoBusca" titulo="RESULTADOS DA BUSCA" :ra="ra" :termoBusca="termoBusca" />
     </div>
 </template>
 
@@ -21,7 +22,9 @@ export default {
     data: function () {
         return {
             ra: null,
-            nome: null
+            nome: null,
+            temReservas: false,
+            termoBusca: ''
         }
     },
     mounted: function () {
@@ -38,22 +41,34 @@ export default {
                 const userRa = localStorage.getItem('ra')
                 this.ra = response.body['user']['ra'];
                 this.nome = response.body['user']['name'];
+                this.fetchLivroReservadoData()
             },
             (error) => {
                 console.log(error);
             }
         )
-    },
-    computed: {
-        filteredBooks() {
-            return this.$root.filteredBooks;
+    }, methods: {
+        fetchLivroReservadoData() {
+            const userRa = localStorage.getItem('ra');
+            this.$http
+                .get('https://libraryapi-e5on.onrender.com/bookings/userlist/' + userRa)
+                .then(response => {
+                    this.temReservas = response.body['data'].length > 0;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
-    },
+        buscarLivros(termo) {
+            this.termoBusca = termo;
+        }
+    }
 };
 </script>
 
 <style scoped>
 h2 {
+    padding-top: 20px;
     display: flex;
     justify-content: right;
     padding-bottom: 5px;

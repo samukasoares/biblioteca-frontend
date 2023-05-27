@@ -10,7 +10,7 @@
             </div>
             <popuplivro :ra="ra" :book="selectedBook" v-if="selectedBook" @close="closePopup" />
         </div>
-        
+
     </div>
 </template>
 
@@ -35,7 +35,7 @@ export default {
     },
     mounted: function () {
         this.fetchLivroReservadoData()
-        
+
     },
     methods: {
         fetchLivroReservadoData: function () {
@@ -59,7 +59,7 @@ export default {
         },
         closePopup() {
             this.selectedBook = null;
-        }
+        },
     },
 
 }
@@ -72,7 +72,7 @@ img {
     border-radius: 5px;
 }
 
-h3{
+h3 {
     padding-bottom: 5px;
     font-size: 20px;
     margin-left: 5px;

@@ -1,6 +1,10 @@
 <template>
     <div>
         <form v-on:submit.prevent="addUser" autocomplete="off">
+            <caption>
+                <img :src="logo">
+                <h3>Biblioteca Sapê</h3>
+            </caption>
             <label>Cadastre-se</label>
             <input type="text" placeholder="Nome completo" v-model="user.name" name="name" id="name">
             <input type="text" placeholder="RA" v-model="user.ra" name="ra" id="ra">
@@ -17,35 +21,37 @@
 </template>
 
 <script>
+import logo from "../assets/logo.png"
 import { get } from 'http'
 
-    export default {
-        data() {
-            return {
-                user: {}
-            }
-        },
-        methods: {
-            addUser: function (){
-                this.$http.post('https://libraryapi-e5on.onrender.com/auth/register', this.user, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+export default {
+    data() {
+        return {
+            logo: logo,
+            user: {}
+        }
+    },
+    methods: {
+        addUser: function () {
+            this.$http.post('https://libraryapi-e5on.onrender.com/auth/register', this.user, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
                 .then(
                     (response) => {
                         this.user = {}
                         alert(response.body['msg'])
                         this.$router.push('/')
                     },
-                    (response) =>{
+                    (response) => {
                         alert(response.body['msg'])
                     }
                 )
-            },
-        }
-
+        },
     }
+
+}
 </script>
 
 <style scoped>
@@ -55,15 +61,26 @@ import { get } from 'http'
     box-sizing: border-box;
 }
 
+img{
+    width: 40px;
+    margin-right: 5px;
+}
+
+caption{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
+
 label {
     display: flex;
     justify-content: center;
 }
 
 form {
-    background-color: #F6F1F1;
-    max-width: 50%;
-    width: 40%;
+    background-color: rgb(211, 240, 253);
+    min-width: 20%;
     padding: 15px;
     position: absolute;
     left: 50%;
@@ -88,7 +105,7 @@ input {
     padding: 5px;
 }
 
-select{
+select {
     width: 100%;
     height: 35px;
     padding: 5px;
@@ -113,4 +130,13 @@ button {
     background-color: #19A7CE;
     color: white;
 }
+
+button:hover{
+    background-color: #14809e;
+}
+
+button:focus{
+    cursor: progress;
+}
+
 </style>

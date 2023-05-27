@@ -22,4 +22,8 @@ export default {
   margin:0px;
   padding: 0px;
 }
+
+body{
+  background-color: aliceblue;
+}
 </style>

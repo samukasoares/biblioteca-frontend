@@ -2,7 +2,7 @@
     <div class="container">
         <h3>{{ titulo }}</h3>
         <div class="container-livros">
-            <div class="card" v-for='x in livros' :key="x['_id']">
+            <div class="card" v-for='x in livrosFiltrados' :key="x['_id']">
                 <a @click="togglePopup(x)" class="open-popup">
                     <img :src="x.thumb">
                 </a>
@@ -10,7 +10,7 @@
             </div>
             <popuplivro :ra="ra" :book="selectedBook" v-if="selectedBook" @close="closePopup" />
         </div>
-        
+
     </div>
 </template>
 
@@ -24,7 +24,8 @@ export default {
     },
     props: {
         titulo: String,
-        ra: String
+        ra: String,
+        termoBusca: String
     },
     data: function () {
         return {
@@ -35,6 +36,16 @@ export default {
     },
     mounted: function () {
         this.fetchLivroData()
+    },
+    computed: {
+        livrosFiltrados() {
+            if (!this.termoBusca) {
+                return this.livros;
+            } else {
+                const termo = this.termoBusca.toLowerCase();
+                return this.livros.filter(livro => livro.title.toLowerCase().includes(termo));
+            }
+        },
     },
     methods: {
         fetchLivroData: function () {
@@ -69,7 +80,7 @@ img {
     border-radius: 5px;
 }
 
-h3{
+h3 {
     padding-bottom: 5px;
     font-size: 20px;
     margin-left: 5px;
@@ -94,6 +105,7 @@ h4 {
 .container-livros {
     display: flex;
     flex-wrap: wrap;
+    justify-content: last baseline;
 }
 
 .open-popup {

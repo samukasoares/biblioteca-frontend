@@ -10,8 +10,7 @@
         </div>
 
         <div class="fim">
-            <input type="text" placeholder="Pesquisar Livros..." v-model="searchQuery">
-            <button class="pesquisar" @click="pesquisarLivros">Pesquisar</button>
+            <input type="text" v-model="termoBusca" placeholder="Buscar Livros..." @input="realizarBusca">
 
             <div class="dropdown">
                 <img class="user-pic" :src="user">
@@ -32,7 +31,7 @@ export default {
         return {
             logo: logo,
             user: user,
-            searchQuery: ''
+            termoBusca: ''
         }
     },
     methods: {
@@ -43,17 +42,9 @@ export default {
             // Redireciona para a página de login ou onde for apropriado
             this.$router.push({ name: 'login' });
         },
-        pesquisarLivros() {
-            this.$root.filteredBooks = this.filteredBooks();
-        },
-    },
-    computed: {
-        filteredBooks() {
-            const query = this.searchQuery.toLowerCase();
-            return this.$root.$data.livros.filter(item => {
-                return item.name.toLowerCase().includes(query);
-            });
-        },
+        realizarBusca() {
+            this.$emit('buscarLivros', this.termoBusca);
+        }
     },
 }
 </script>
@@ -80,10 +71,12 @@ body {
 }
 
 .container {
+    background-color: rgb(211, 240, 253);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 10px;
+    padding: 5px;
+    box-shadow: 2px 2px 2px rgb(158, 158, 158);
 }
 
 .links {
@@ -119,6 +112,9 @@ a {
 input {
     height: 30px;
     border: none;
+    border-radius: 5px;
+    width: 100%;
+    margin-right: 10px;
 }
 
 input:focus {
@@ -150,8 +146,8 @@ input:focus {
 .fim {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    width: 350px;
+    justify-content: space-between;
+    width: 300px;
 }
 
 .dropbtn {
@@ -184,7 +180,6 @@ input:focus {
 .dropdown-content {
     display: none;
     position: absolute;
-    border: 1px solid rgb(58, 58, 58);
     background-color: #ffffff;
     border-radius: 5px;
     min-width: 160px;
