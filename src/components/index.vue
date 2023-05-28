@@ -1,6 +1,6 @@
 <template>
     <div>
-        <navbar @buscarLivros="buscarLivros" />
+        <navbar :role="role" @buscarLivros="buscarLivros" />
         <h2>Bem vindo, {{ this.nome }}!</h2>
         <listaReservados v-if="temReservas" titulo="MINHAS RESERVAS" :ra="ra" />
         <listaLivros v-if="!termoBusca" titulo="LIVROS DISPONÍVEIS" :ra="ra" />
@@ -24,7 +24,8 @@ export default {
             ra: null,
             nome: null,
             temReservas: false,
-            termoBusca: ''
+            termoBusca: '',
+            role: null
         }
     },
     mounted: function () {
@@ -38,9 +39,11 @@ export default {
         }).then(
             (response) => {
                 localStorage.setItem('ra', response.body['user']['ra'])
+                localStorage.setItem('role', response.body['user']['role'])
                 const userRa = localStorage.getItem('ra')
                 this.ra = response.body['user']['ra'];
                 this.nome = response.body['user']['name'];
+                this.role = localStorage.getItem('role')
                 this.fetchLivroReservadoData()
             },
             (error) => {

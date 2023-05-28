@@ -1,6 +1,6 @@
 <template>
     <div class="containerLivros">
-        <navbar />
+        <navbar :role="role" />
         <table>
             <caption>LIVROS DISPONÍVEIS NA BIBLIOTECA</caption>
             <thead>
@@ -38,6 +38,7 @@ export default {
     data: function(){
         return{
             livros: [],
+            role: null
         }
     },
     components: {
@@ -45,6 +46,7 @@ export default {
     },
     created: function() {
         this.fetchLivroData()
+        this.role = localStorage.getItem('role')
     },
     methods: {
         fetchLivroData: function () {

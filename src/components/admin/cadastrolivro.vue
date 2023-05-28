@@ -1,6 +1,6 @@
 <template>
     <div>
-        <navbar />
+        <navbar :role="role"/>
         <div class="containerForm">
             <form v-on:submit.prevent="addLivro" autocomplete="off">
                 <div class="form-group">
@@ -50,8 +50,12 @@ import navbar from '../navbar.vue';
 export default {
     data() {
         return {
-            livro: {}
+            livro: {},
+            role: null
         }
+    },
+    mounted(){
+        this.role = localStorage.getItem('role')
     },
     components: {
         navbar

@@ -42,9 +42,6 @@ export default {
                             localStorage.setItem('id', response.body['id']);
                             this.$router.push({
                                 name: 'index',
-                                params: {
-                                    role: response.body['role'],
-                                }
                             });
                         } else {
                             localStorage.setItem('token', response.body['token']);

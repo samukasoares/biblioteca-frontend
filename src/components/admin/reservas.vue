@@ -1,6 +1,6 @@
 <template>
     <div class="containerReservas">
-        <navbar />
+        <navbar :role="role" />
         <div class="containerBody">
             <table>
                 <caption>RESERVAS</caption>
@@ -38,11 +38,13 @@ export default {
     },
     data: function () {
         return {
-            reservas: []
+            reservas: [],
+            role: null,
         }
     },
     created: function () {
         this.fetchReservaData()
+        this.role = localStorage.getItem('role')
     },
     methods: {
         fetchReservaData: function () {

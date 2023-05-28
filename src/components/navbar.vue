@@ -7,6 +7,17 @@
 
         <div class="links">
             <router-link :to="{ name: 'index' }"><button class="menus">Início</button></router-link>
+            <router-link v-if="role === 'bibliotecário'" :to="{ name: 'cadastrolivro' }"><button
+                    class="menus">Cadastrar
+                    Livro</button></router-link>
+            <router-link v-if="role === 'bibliotecário'" :to="{ name: 'telaAdmin' }"><button
+                    class="menus">Tela
+                    Admin</button></router-link>
+            <router-link v-if="role === 'bibliotecário'" :to="{ name: 'reservas' }"><button
+                    class="menus">Ver
+                    Reservas</button></router-link>
+            <router-link v-if="role === 'bibliotecário'" :to="{ name: 'livrosdisponiveis' }"><button
+                    class="menus">Livros</button></router-link>
         </div>
 
         <div class="fim">
@@ -31,20 +42,25 @@ export default {
         return {
             logo: logo,
             user: user,
-            termoBusca: ''
+            termoBusca: '',
+            roleInitialized: false
         }
+    },
+    props:{
+        role: String
     },
     methods: {
         logout() {
             localStorage.setItem('token', null); // Define o token como null
             localStorage.setItem('id', null); // Define o id como null
             localStorage.setItem('ra', null);
+            localStorage.setItem('role', null);
             // Redireciona para a página de login ou onde for apropriado
             this.$router.push({ name: 'login' });
         },
         realizarBusca() {
             this.$emit('buscarLivros', this.termoBusca);
-        }
+        },
     },
 }
 </script>
@@ -80,7 +96,7 @@ body {
 }
 
 .links {
-    width: 200px;
+    width: 400px;
     display: flex;
     justify-content: space-between;
 }
@@ -210,5 +226,4 @@ input:focus {
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
-}
-</style>
+}</style>

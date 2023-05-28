@@ -1,6 +1,6 @@
 <template>
     <div>
-        <navbar />
+        <navbar :role="role" />
         <div class="containerTabelaUsuarios">
             <table class="usuariosPendentes">
                 <caption>USUÁRIOS PENDENTES E SUSPENSOS</caption>
@@ -55,11 +55,11 @@
                 </tbody>
             </table>
         </div>
-        <div class="botoesAcao">
+        <!-- <div class="botoesAcao">
             <router-link :to="{ name: 'cadastrolivro' }"><button class="btn">Cadastrar Livro</button></router-link>
             <router-link :to="{ name: 'reservas' }"><button class="btn">Ver Reservas</button></router-link>
             <router-link :to="{ name: 'livrosdisponiveis' }"><button class="btn">Livros</button></router-link>
-        </div>
+        </div>-->
     </div>
 </template>
 
@@ -74,13 +74,32 @@ export default {
         return {
             usuarios: [],
             usuariosPendentes: [],
-            x: {}
+            x: {},
+            role:null,
         }
     },
-    created: function () {
-        this.fetchUserData()
-        this.fetchUserPData()
+    mounted: function () {
+        const token = localStorage.getItem('token'); // Recupere o token do localStorage
+        const id = localStorage.getItem('id'); // Recupere o id do localStorage
+        this.$http.get('https://libraryapi-e5on.onrender.com/user/' + id, {
+            headers: {
+                'Authorization': "Bearer " + token,
+                'Content-Type': 'application/json'
+            }
+        }).then(
+            (response) => {
+                localStorage.setItem('role',response.body['user']['role'])
+                this.role = response.body['user']['role']
+                this.fetchUserData()
+                this.fetchUserPData()
+                
+            },
+            (error) => {
+                console.log(error);
+            }
+        )
     },
+
     methods: {
         fetchUserData: function () {
             this.$http.get('https://libraryapi-e5on.onrender.com/users/approved/list').then(
@@ -90,7 +109,7 @@ export default {
                 (response) => { }
             )
         },
-        fetchUserPData: function() {
+        fetchUserPData: function () {
             this.$http.get('https://libraryapi-e5on.onrender.com/users/pendent/list').then(
                 (response) => {
                     this.usuariosPendentes = response.body['data']
@@ -98,8 +117,8 @@ export default {
                 (response) => { }
             )
         },
-        aprovarUser (ra) {
-            const x = {ra}
+        aprovarUser(ra) {
+            const x = { ra }
             this.$http.patch('https://libraryapi-e5on.onrender.com/users/approving', x).then(
                 response => {
                     console.log(response.body['msg'])
@@ -111,8 +130,8 @@ export default {
                 }
             )
         },
-        reprovarUser (ra) {
-            const x = {ra}
+        reprovarUser(ra) {
+            const x = { ra }
             this.$http.patch('https://libraryapi-e5on.onrender.com/users/reproving', x).then(
                 response => {
                     alert(response.body['msg'])
@@ -124,8 +143,8 @@ export default {
                 }
             )
         },
-        suspenderUser (ra) {
-            const x = {ra}
+        suspenderUser(ra) {
+            const x = { ra }
             this.$http.patch('https://libraryapi-e5on.onrender.com/users/suspending', x).then(
                 response => {
                     alert(response.body['msg'])
@@ -136,7 +155,7 @@ export default {
                     console.error(error);
                 }
             )
-        }
+        },
     }
 }
 </script>
@@ -166,10 +185,10 @@ caption {
 
 .acoesUsuariosR:hover {
     color: rgb(255, 0, 0);
-    cursor:pointer;
+    cursor: pointer;
 }
 
-.acoesUsuariosR:active{
+.acoesUsuariosR:active {
     cursor: progress;
 }
 
