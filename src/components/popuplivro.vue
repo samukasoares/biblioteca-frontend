@@ -57,6 +57,7 @@ export default {
             }).then(
                 (response) => {
                     alert(response.body['msg'])
+                    this.$router.go()
                 },
                 (response) => {
                     alert(response.body['msg'])
